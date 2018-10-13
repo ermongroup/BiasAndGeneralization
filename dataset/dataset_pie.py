@@ -11,29 +11,26 @@ def gen_pie(params):
     # 0.35 + k/20: 0.4-0.8, range 1-9
     size = int(params[1])
     if size == 0:
-        size = np.random.randint(1, 10) / 20.0
-    else:
-        size = size / 20.0 + 0.35
+        size = np.random.randint(1, 10)
+    size = size / 20.0 + 0.35
+    print(size)
 
     # (k-5)/20: -0.2 - 0.2
     locx = int(params[2])
     if locx == 0:
-        locx = (np.random.randint(1, 10) - 5) / 20.0
-    else:
-        locx = (locx - 5) / 20.0
+        locx = np.random.randint(1, 10)
+    locx = (locx - 5) / 20.0
 
     locy = int(params[3])
     if locy == 0:
-        locy = (np.random.randint(1, 10) - 5) / 20.0
-    else:
-        locy = (locy - 5) / 20.0
+        locy = np.random.randint(1, 10)
+    locy = (locy - 5) / 20.0
 
     # k/10, 0.0-1.0
     color = int(params[4])
     if color == 0:
-        color = np.random.randint(1, 10) / 10.0
-    else:
-        color = color / 10.0
+        color = np.random.randint(1, 10)
+    color = color / 10.0
 
     resolution = 1000
     lutx = []
@@ -147,19 +144,25 @@ if __name__ == '__main__':
     from matplotlib import pyplot as plt
     dataset = PieDataset()
     images = dataset.next_batch(100)
+    plt.figure(figsize=(6, 6))
     for i in range(0, 16):
         plt.subplot(4, 4, i+1)
         plt.imshow(images[i])
+        plt.gca().xaxis.set_visible(False)
+        plt.gca().yaxis.set_visible(False)
+    plt.tight_layout()
+    plt.savefig('img/pie_example.png')
     plt.show()
-    plt.subplot(2, 2, 1)
-    plt.hist(dataset.eval_location(images)[:, 0], range=(-0.5, 0.5), bins=30)
-    plt.subplot(2, 2, 2)
-    plt.hist(dataset.eval_location(images)[:, 1], range=(-0.5, 0.5), bins=30)
-    plt.subplot(2, 2, 3)
-    plt.hist(dataset.eval_color_proportion(images), range=(0, 1), bins=30)
-    plt.subplot(2, 2, 4)
-    plt.hist(dataset.eval_size(images), range=(0, 1), bins=30)
-    plt.show()
+    # plt.show()
+    # plt.subplot(2, 2, 1)
+    # plt.hist(dataset.eval_location(images)[:, 0], range=(-0.5, 0.5), bins=30)
+    # plt.subplot(2, 2, 2)
+    # plt.hist(dataset.eval_location(images)[:, 1], range=(-0.5, 0.5), bins=30)
+    # plt.subplot(2, 2, 3)
+    # plt.hist(dataset.eval_color_proportion(images), range=(0, 1), bins=30)
+    # plt.subplot(2, 2, 4)
+    # plt.hist(dataset.eval_size(images), range=(0, 1), bins=30)
+    # plt.show()
     # for i in range(0, 16):
     #     plt.subplot(4, 4, i+1)
     #     dataset.plot_colors(plt.gca(), labels[i])

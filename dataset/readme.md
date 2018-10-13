@@ -1,5 +1,7 @@
 # Dots Dataset
 
-![Example Image](img/dots_example.png)
+![dots_example](img/dots_example.png)
 
 # Pie Dataset
+
+![pie_example](img/pie_example.png)
