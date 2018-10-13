@@ -1,6 +1,6 @@
 # Dots Dataset
-This dataset contains images of 1-12 colored dots. Each count contains 65k example images. 
-The dataset can be downloaded [here]()
+This dataset contains images of 1-12 colored dots. Each object count contains 65k example images. 
+The dataset can be downloaded [here](https://drive.google.com/open?id=1CsDMOIGEsD1l3BLhuQDfEfEmLEb83wMz)
 
 ![dots_example](img/dots_example.png)
 
@@ -10,7 +10,8 @@ Replace '<dataset_path>' with the actual parent directory of the extracted datas
 # Pie Dataset
 
 This dataset generates a pie shape with different colors. Example images are shown below. 
-This dataset is generated on-the-fly and do not require pre-download. For example usage, see example.ipynb. 
+This dataset is generated on-the-fly and do not require pre-download or pre-processing. 
+For example usage, see example.ipynb. 
 
 ![pie_example](img/pie_example.png)
 
