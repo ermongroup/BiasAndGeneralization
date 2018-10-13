@@ -1,6 +1,8 @@
 # Dots Dataset
 This dataset contains images of 1-12 colored dots. Each object count contains 65k example images. 
-The dataset can be downloaded [here](https://drive.google.com/open?id=1CsDMOIGEsD1l3BLhuQDfEfEmLEb83wMz)
+The dataset can be downloaded at
+[google](https://drive.google.com/open?id=1CsDMOIGEsD1l3BLhuQDfEfEmLEb83wMz) 
+[dropbox](https://www.dropbox.com/s/4qhnpxzct3fkvxh/dots.zip?dl=0).
 
 ![dots_example](img/dots_example.png)
 
