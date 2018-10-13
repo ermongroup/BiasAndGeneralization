@@ -1,21 +1,19 @@
-if __name__ == '__main__':
-    from abstract_dataset import *
-else:
-    from dataset.abstract_dataset import *
+import numpy as np
+import os
 
 
-class DotsDataset(Dataset):
-    def __init__(self, db_path=('/data/dots_4_5',)):
-        Dataset.__init__(self)
+class DotsDataset():
+    def __init__(self, db_path=('/data/dots/',), noisy=True):
         self.data_dims = [64, 64, 3]
         self.name = "dots"
+        self.noisy = noisy
         self.batch_size = 100
         self.db_path = db_path
 
         self.db_files = [os.listdir(path) for path in db_path]
         assert np.min([len(files) for files in self.db_files]) == np.max([len(files) for files in self.db_files])
         self.train_db_files = self.db_files
-        print(self.db_files)
+        # print(self.db_files)
 
         self.train_data_ptr = 0
         self.train_batch_ptr = -1
@@ -34,8 +32,12 @@ class DotsDataset(Dataset):
             images_list = []
             for dtype in range(len(self.train_db_files)):
                 filename = os.path.join(self.db_path[dtype], self.train_db_files[dtype][self.train_batch_ptr])
-                result = np.load(filename)
-                images_list.append(result['images'])
+                img = np.load(filename)['images']
+                if self.noisy:
+                    img += np.random.normal(loc=0, scale=0.03, size=img.shape)
+                    img = 1.0 - np.abs(1.0 - img)
+                    img = np.abs(img)
+                images_list.append(img)
             images = np.concatenate(images_list, axis=0)
             # colors = np.concatenate(colors_list, axis=0)
             perm = np.random.permutation(range(images.shape[0]))
@@ -68,7 +70,7 @@ class DotsDataset(Dataset):
 
 if __name__ == '__main__':
     from matplotlib import pyplot as plt
-    dataset = DotsDataset(db_path=['/data/dots/3_dots'])
+    dataset = DotsDataset(db_path=['/data/dots/3_dots', '/data/dots/6_dots'])
     images = dataset.next_batch(100)
     plt.figure(figsize=(6, 6))
     for i in range(0, 16):
@@ -77,5 +79,5 @@ if __name__ == '__main__':
         plt.gca().xaxis.set_visible(False)
         plt.gca().yaxis.set_visible(False)
     plt.tight_layout()
-    plt.savefig('img/dots_example.png')
+    # plt.savefig('img/dots_example.png')
     plt.show()

@@ -9,14 +9,19 @@ from matplotlib import pyplot as plt
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--bn', type=int, default=0)
-parser.add_argument('--bs', type=int, default=128)
-parser.add_argument('--dest', type=str, default='/data/dots/')
+parser.add_argument('--bs', type=int, default=256)
+parser.add_argument('--dest', type=str, default='/home/ubuntu/efs/dots/')
 parser.add_argument('--noisy', type=bool, default='True')
 parser.add_argument('--count', type=int, default=3, help='number of dots to generate')
 args = parser.parse_args()
 
-args.dest = os.path.join(args.dest, '%d_dots' % args.count)
-
+raw_dest = os.path.join(args.dest, 'raw/%d_dots' % args.count)
+compressed_dest = os.path.join(args.dest, 'compressed/%d_dots' % args.count)
+time.sleep(args.bn * 5)
+if not os.path.isdir(raw_dest):
+    os.makedirs(raw_dest)
+if not os.path.isdir(compressed_dest):
+    os.makedirs(compressed_dest)
 
 def fig2data(fig):
     # draw the renderer
@@ -66,12 +71,6 @@ images = []
 start_time = time.time()
 for i in range(args.bs):
     new_img = gen_image_count(args.count).astype(np.float32) / 255.0
-
-    if args.noisy:
-        new_img += np.random.normal(loc=0, scale=0.03, size=new_img.shape)
-        new_img = 1.0 - np.abs(1.0 - new_img)
-        new_img = np.abs(new_img)
-
     images.append(new_img)
     if (i+1) % 1000 == 0:
         print("Generating %d-th image, time used: %f" % (i+1, time.time() - start_time))
@@ -80,7 +79,18 @@ plt.imshow(images[0])
 plt.show()
 
 batch_img = np.stack(images, axis=0)
-if not os.path.isdir(args.dest):
-    os.makedirs(args.dest)
-np.savez(os.path.join(args.dest, 'batch%d.npz' % args.bn), images=batch_img)
 
+np.save(os.path.join(raw_dest, 'batch%d.npy' % args.bn), batch_img)
+np.savez_compressed(os.path.join(compressed_dest, 'batch%d.npz' % args.bn), images=batch_img)
+
+
+#
+# start_time = time.time()
+# img = np.load(os.path.join(args.dest, 'batch%d.npz' % args.bn))
+# print(img['images'][128, 10, 10])
+# print("Time %f" % (time.time() - start_time))
+#
+# start_time = time.time()
+# img = np.load(os.path.join(args.dest, 'batch%d.npy' % args.bn))
+# print(img[128, 10, 10])
+# print("Time %f" % (time.time() - start_time))

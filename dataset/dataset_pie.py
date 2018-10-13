@@ -1,8 +1,5 @@
 import math
-if __name__ == '__main__':
-    from abstract_dataset import *
-else:
-    from dataset.abstract_dataset import *
+import numpy as np
 
 
 def gen_pie(params):
@@ -13,7 +10,6 @@ def gen_pie(params):
     if size == 0:
         size = np.random.randint(1, 10)
     size = size / 20.0 + 0.35
-    print(size)
 
     # (k-5)/20: -0.2 - 0.2
     locx = int(params[2])
@@ -94,13 +90,12 @@ def compute_location(img):
     return location
 
 
-class PieDataset(Dataset):
+class PieDataset():
     def __init__(self, params=('40000',)):
         """ params is a tuple of strings, each string contain five integers,
         representing [num-of-color, size, x-location, y-location, proportion-of-red];
         each value is from 1-9, if value is 0, than this dimension is randomly selected.
         For data point selects a random param"""
-        Dataset.__init__(self)
         self.data_dims = [64, 64, 3]
         self.name = "pie"
         self.batch_size = 100
@@ -151,7 +146,7 @@ if __name__ == '__main__':
         plt.gca().xaxis.set_visible(False)
         plt.gca().yaxis.set_visible(False)
     plt.tight_layout()
-    plt.savefig('img/pie_example.png')
+    # plt.savefig('img/pie_example.png')
     plt.show()
     # plt.show()
     # plt.subplot(2, 2, 1)
