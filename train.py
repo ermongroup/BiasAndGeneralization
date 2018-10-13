@@ -6,15 +6,16 @@ from gan import GAN
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--gpu', type=str, default='3', help='GPU to use')
+parser.add_argument('--gpu', type=str, default='0', help='GPU to use')
 parser.add_argument('--z_dim', type=int, default=100, help='z dimension')
 parser.add_argument('--dataset', type=str, default='pie_30', help='e.g. dots_3, pie_30')
-parser.add_argument('--lr', type=float, default=-4.0, help='log_10 of initial learning rate')
 parser.add_argument('--objective', type=str, default='gan', help='vae or gan')
+parser.add_argument('--architecture', type=str, default='conv', help='Current options are conv, small, fc')
+
+parser.add_argument('--run', type=int, default=0, help='Index of the run')
+parser.add_argument('--lr', type=float, default=-4.0, help='log_10 of initial learning rate')
 parser.add_argument('--beta', type=float, default=1.0, help='Coefficient of KL(q(z|x)||p(z)), only useful for VAE')
 parser.add_argument('--drep', type=int, default=2, help='Number of times to train discriminator for each generator update, only useful for GAN')
-parser.add_argument('--architecture', type=str, default='conv', help='Current options are conv, small, fc')
-parser.add_argument('--run', type=int, default=0, help='Index of the run')
 args = parser.parse_args()
 
 
