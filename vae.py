@@ -12,6 +12,9 @@ class VAE:
         elif 'small' in args.architecture:
             encoder = encoder_conv64small
             generator = generator_conv64small
+        elif 'large' in args.architecture:
+            encoder = encoder_conv64large
+            generator = generator_conv64large
         else:
             encoder = encoder_fc64
             generator = generator_fc64

@@ -15,9 +15,6 @@ class GAN:
         elif 'large' in args.architecture:
             discriminator = discriminator_conv64large
             generator = generator_conv64large
-        elif 'shallow' in args.architecture:
-            discriminator = discriminator_conv64
-            generator = generator_conv64shallow
         else:
             discriminator = discriminator_fc64
             generator = generator_fc64
@@ -37,16 +34,6 @@ class GAN:
         ddx = tf.gradients(d_hat, x_hat)[0]
         ddx = tf.sqrt(tf.reduce_sum(tf.square(ddx), axis=(1, 2, 3)))
         d_grad_loss = tf.reduce_mean(tf.square(ddx - 1.0) * 10.0)
-
-        # DCGAN
-        # d_loss_x = tf.reduce_mean(
-        #     tf.nn.sigmoid_cross_entropy_with_logits(logits=d, labels=tf.ones_like(d)))
-        # d_loss_g = tf.reduce_mean(
-        #     tf.nn.sigmoid_cross_entropy_with_logits(logits=d_, labels=tf.zeros_like(d_)))
-        # g_loss = tf.reduce_mean(
-        #     tf.nn.sigmoid_cross_entropy_with_logits(logits=d_, labels=tf.ones_like(d_)))
-        # d_loss = d_loss_x + d_loss_g
-        # d_confusion = tf.reduce_mean(d_) - tf.reduce_mean(d)
 
         d_loss_x = -tf.reduce_mean(d)
         d_loss_g = tf.reduce_mean(d_)

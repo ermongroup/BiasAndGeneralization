@@ -31,17 +31,19 @@ name = '%s/%s/model=%s-zdim=%d-lr=%.2f-beta=%.2f-drep=%d-run=%d' % \
 log_path = os.path.join(args.log_path, name)
 make_model_path(log_path)
 
+
+# Parse args.dataset to create the dataset object
 assert 'dots' in args.dataset or 'pie' in args.dataset
 if 'dots' in args.dataset:
     splited = args.dataset.split('_')
     db_path = []
     for item in splited[1:]:
-        db_path.append(os.path.join(args.data_path, 'dots_%s' % item))
+        db_path.append(os.path.join(args.data_path, '%s_dots' % item))
     dataset = DotsDataset(db_path=db_path)
 else:
     splited = args.dataset.split('_')
     num_params = int(splited[1])
-2
+
     fixed_dim = -1
     if len(splited) > 2:
         fixed_dim = int(splited[2])
@@ -81,12 +83,14 @@ else:
 
     dataset = PieDataset(params=params)
 
+# Create model object
 assert args.objective in ['vae', 'gan']
 if args.objective == 'vae':
     model = VAE(args, dataset, log_path)
 else:
     model = GAN(args, dataset, log_path)
 
+# Training
 start_time = time.time()
 for idx in range(1, 200001):
     bx = dataset.next_batch(batch_size)
@@ -102,5 +106,4 @@ for idx in range(1, 200001):
             bx_list.append(dataset.next_batch(1024))
         bx = np.concatenate(bx_list, axis=0)
         np.savez(os.path.join(log_path, 'samples%d.npz' % (idx // 10000)), g=bxg, x=bx)
-
         model.save()

@@ -10,7 +10,9 @@ Important arguments are:
 
 - ``--objective=str`` where ``str`` can be ``vae`` or ``gan``.
 
-- ``--architecture=str`` where ``str`` can be ``conv``, ``small`` of ``fc``. ``conv`` and ``small`` use a convnet, while ``fc`` uses a fully connected network. ``small`` contains approximately 1/4 as many parameters as ``conv``. 
+- ``--architecture=str`` where ``str`` can be ``conv``, ``small``, ``large`` or ``fc``. ``conv``, 
+``small`` and ``large`` use a convnet, while ``fc`` uses a fully connected network. 
+``small`` has ~1/2 as many parameters as ``conv`` while ``large`` has ~4 times as many parameters as ``conv``. 
 
 - ``--dataset=str`` is the dataset we would like to train on:
     1. To train on the dots dataset, ``str=dots_a_b_...``, where ``a, b, ...`` are the number of dots that should appear in the dataset. 

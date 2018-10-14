@@ -2,38 +2,12 @@ from utils import *
 Bernoulli = tf.contrib.distributions.Bernoulli
 
 
-def sample_gumbel(shape, eps=1e-20):
-    """Sample from Gumbel(0, 1)"""
-    U = tf.random_uniform(shape,minval=0,maxval=1)
-    return -tf.log(-tf.log(U + eps) + eps)
-
-
-def gumbel_softmax_sample(logits, temperature):
-    """ Draw a sample from the Gumbel-Softmax distribution"""
-    y = logits + sample_gumbel(tf.shape(logits))
-    return tf.nn.softmax(y / temperature)
-
-
-def gumbel_softmax(logits, temperature, hard=False):
-    y = gumbel_softmax_sample(logits, temperature)
-    if hard:
-        k = tf.shape(logits)[-1]
-        y_hard = tf.cast(tf.equal(y,tf.reduce_max(y,1,keep_dims=True)),y.dtype)
-        y = tf.stop_gradient(y_hard - y) + y
-    return y
-
-
 def sample_z(batch_size, z_dim, noise='gaussian'):
     if 'gaussian' in noise:
         return np.random.normal(0, 1, [batch_size, z_dim])
     elif 'bernoulli' in noise:
         return (np.random.normal(0, 1, [batch_size, z_dim]) > 0).astype(np.float)
     return None
-
-
-def label_noise(bc):
-    return (1.0 - np.abs(np.random.normal(loc=0, scale=0.1, size=bc.shape))) * bc + \
-           np.abs(np.random.normal(loc=0, scale=0.1, size=bc.shape)) * (1 - bc)
 
 
 # Encoders
@@ -75,6 +49,21 @@ def encoder_conv64small(x, z_dim):
         conv = conv2d_bn_lrelu(conv, 128, 4, 2)
         fc = tf.reshape(conv, [-1, np.prod(conv.get_shape().as_list()[1:])])
         fc = fc_lrelu(fc, 512)
+        mean = tf.contrib.layers.fully_connected(fc, z_dim, activation_fn=tf.identity)
+        stddev = tf.contrib.layers.fully_connected(fc, z_dim, activation_fn=tf.sigmoid)
+        stddev = tf.maximum(stddev, 0.01)
+        sample = mean + tf.multiply(stddev, tf.random_normal(tf.stack([tf.shape(x)[0], z_dim])))
+        return [mean, stddev], sample
+
+
+def encoder_conv64large(x, z_dim):
+    with tf.variable_scope('i_net'):
+        conv = conv2d_bn_lrelu(x, 128, 4, 2)
+        conv = conv2d_bn_lrelu(conv, 256, 4, 2)
+        conv = conv2d_bn_lrelu(conv, 384, 4, 2)
+        conv = conv2d_bn_lrelu(conv, 512, 4, 2)
+        fc = tf.reshape(conv, [-1, np.prod(conv.get_shape().as_list()[1:])])
+        fc = fc_lrelu(fc,  2048)
         mean = tf.contrib.layers.fully_connected(fc, z_dim, activation_fn=tf.identity)
         stddev = tf.contrib.layers.fully_connected(fc, z_dim, activation_fn=tf.sigmoid)
         stddev = tf.maximum(stddev, 0.01)
@@ -141,19 +130,6 @@ def generator_conv64large(z, reuse=False):
         conv = conv2d_t_relu(conv, 256, 4, 2)
         conv = conv2d_t_relu(conv, 256, 4, 1)
         conv = conv2d_t_relu(conv, 128, 4, 2)
-        output = tf.contrib.layers.convolution2d_transpose(conv, 3, 4, 2, activation_fn=tf.sigmoid)
-        return output
-
-
-def generator_conv64shallow(z, reuse=False):
-    with tf.variable_scope('g_net') as vs:
-        if reuse:
-            vs.reuse_variables()
-        fc = fc_bn_relu(z, 4*4*256)
-        conv = tf.reshape(fc, tf.stack([tf.shape(fc)[0], 4, 4, 256]))
-        conv = conv2d_t_bn_relu(conv, 192, 4, 2)
-        conv = conv2d_t_relu(conv, 128, 4, 2)
-        conv = conv2d_t_relu(conv, 64, 4, 2)
         output = tf.contrib.layers.convolution2d_transpose(conv, 3, 4, 2, activation_fn=tf.sigmoid)
         return output
 
