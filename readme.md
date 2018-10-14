@@ -38,4 +38,6 @@ Only needed for the dots dataset. The pie dataset is generated on the fly.
 
 Example usage
 
-``` python train.py --objective=gan --architecture=conv --dataset=pie_30_0_135 --z_dim=100 --gpu=1 --log_path=log```
+``` python train.py --objective=vae --architecture=small --dataset=pie_30_0_135 --z_dim=100 --gpu=1 --log_path=log```
+
+``` python train.py --objective=gan --architecture=conv --dataset=dots_5_10 --z_dim=100 --gpu=2 --log_path=log```

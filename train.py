@@ -7,10 +7,10 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--gpu', type=str, default='0', help='GPU to use')
-parser.add_argument('--z_dim', type=int, default=100, help='z dimension')
-parser.add_argument('--dataset', type=str, default='pie_30', help='e.g. dots_3, pie_30')
+parser.add_argument('--z_dim', type=int, default=100, help='Number of z dimensions')
+parser.add_argument('--dataset', type=str, default='pie_30_0_135', help='Please refer to readme')
 parser.add_argument('--objective', type=str, default='gan', help='vae or gan')
-parser.add_argument('--architecture', type=str, default='conv', help='Current options are conv, small, fc')
+parser.add_argument('--architecture', type=str, default='conv', help='Current options are conv, small, large, fc')
 parser.add_argument('--data_path', type=str, default='/data/dots/')
 parser.add_argument('--log_path', type=str, default='log')
 
@@ -21,10 +21,6 @@ parser.add_argument('--drep', type=int, default=2, help='Number of times to trai
 args = parser.parse_args()
 
 
-batch_size = 100
-
-# data_root = '/data/pie'
-# log_root = '/data/empirical_gm'
 os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
 name = '%s/%s/model=%s-zdim=%d-lr=%.2f-beta=%.2f-drep=%d-run=%d' % \
        (args.dataset, args.objective, args.architecture, args.z_dim, args.lr, args.beta, args.drep, args.run)
@@ -83,6 +79,7 @@ else:
 
     dataset = PieDataset(params=params)
 
+
 # Create model object
 assert args.objective in ['vae', 'gan']
 if args.objective == 'vae':
@@ -90,8 +87,10 @@ if args.objective == 'vae':
 else:
     model = GAN(args, dataset, log_path)
 
+
 # Training
 start_time = time.time()
+batch_size = 100
 for idx in range(1, 200001):
     bx = dataset.next_batch(batch_size)
     model.train_step(bx)
