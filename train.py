@@ -11,6 +11,8 @@ parser.add_argument('--z_dim', type=int, default=100, help='z dimension')
 parser.add_argument('--dataset', type=str, default='pie_30', help='e.g. dots_3, pie_30')
 parser.add_argument('--objective', type=str, default='gan', help='vae or gan')
 parser.add_argument('--architecture', type=str, default='conv', help='Current options are conv, small, fc')
+parser.add_argument('--data_path', type=str, default='/data/dots/')
+parser.add_argument('--log_path', type=str, default='log')
 
 parser.add_argument('--run', type=int, default=0, help='Index of the run')
 parser.add_argument('--lr', type=float, default=-4.0, help='log_10 of initial learning rate')
@@ -20,15 +22,13 @@ args = parser.parse_args()
 
 
 batch_size = 100
-data_root = '/home/ubuntu/data/dots_small'
-log_root = '/home/ubuntu/efs/log'
 
 # data_root = '/data/pie'
 # log_root = '/data/empirical_gm'
 os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
 name = '%s/%s/model=%s-zdim=%d-lr=%.2f-beta=%.2f-drep=%d-run=%d' % \
        (args.dataset, args.objective, args.architecture, args.z_dim, args.lr, args.beta, args.drep, args.run)
-log_path = os.path.join(log_root, name)
+log_path = os.path.join(args.log_path, name)
 make_model_path(log_path)
 
 assert 'dots' in args.dataset or 'pie' in args.dataset
@@ -36,12 +36,12 @@ if 'dots' in args.dataset:
     splited = args.dataset.split('_')
     db_path = []
     for item in splited[1:]:
-        db_path.append(os.path.join(data_root, 'dots_%s' % item))
+        db_path.append(os.path.join(args.data_path, 'dots_%s' % item))
     dataset = DotsDataset(db_path=db_path)
 else:
     splited = args.dataset.split('_')
     num_params = int(splited[1])
-
+2
     fixed_dim = -1
     if len(splited) > 2:
         fixed_dim = int(splited[2])
