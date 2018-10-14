@@ -1,7 +1,7 @@
 This repository contains code related to numerosity and pie experiments in the paper 
 ["Bias and Generalization in Deep Generative Models"](to appear). 
 
-![concept](img/concept_illustration.pdf)
+![concept](img/concept_illustration.png)
 
 For code and instructions on the dataset, please refer to the 
 [dataset](https://github.com/ShengjiaZhao/BiasAndGeneralization/tree/master/dataset) folder. 
