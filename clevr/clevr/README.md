@@ -34,9 +34,9 @@ blender --background --python render_images.py -- --num_images 10 --min_dist 2.5
 
 Some samples
 
-![one1](https://github.com/hyren/clevr/blob/master/clevr/samples/one1.jpg)
-![one2](https://github.com/hyren/clevr/blob/master/clevr/samples/one2.jpg)
-![one3](https://github.com/hyren/clevr/blob/master/clevr/samples/one3.jpg)
+![one1](https://github.com/ermongroup/BiasAndGeneralization/blob/master/clevr/clevr/samples/one1.jpg)
+![one2](https://github.com/ermongroup/BiasAndGeneralization/blob/master/clevr/clevr/samples/one2.jpg)
+![one3](https://github.com/ermongroup/BiasAndGeneralization/blob/master/clevr/clevr/samples/one3.jpg)
 
 ### Generate Two Objects
 ```
@@ -49,9 +49,9 @@ blender --background --python render_images.py -- --num_images 10 --min_dist 2.5
 
 Some samples
 
-![two1](https://github.com/hyren/clevr/blob/master/clevr/samples/two1.jpg)
-![two2](https://github.com/hyren/clevr/blob/master/clevr/samples/two2.jpg)
-![two3](https://github.com/hyren/clevr/blob/master/clevr/samples/two3.jpg)
+![two1](https://github.com/ermongroup/BiasAndGeneralization/blob/master/clevr/clevr/samples/two1.jpg)
+![two2](https://github.com/ermongroup/BiasAndGeneralization/blob/master/clevr/clevr/samples/two2.jpg)
+![two3](https://github.com/ermongroup/BiasAndGeneralization/blob/master/clevr/clevr/samples/two3.jpg)
 
 ### Generate Three Objects
 ```
@@ -64,9 +64,9 @@ blender --background --python render_images.py -- --num_images 10 --min_dist 0.4
 
 Some samples
 
-![three1](https://github.com/hyren/clevr/blob/master/clevr/samples/three1.jpg)
-![three2](https://github.com/hyren/clevr/blob/master/clevr/samples/three2.jpg)
-![three3](https://github.com/hyren/clevr/blob/master/clevr/samples/three3.jpg)
+![three1](https://github.com/ermongroup/BiasAndGeneralization/blob/master/clevr/clevr/samples/three1.jpg)
+![three2](https://github.com/ermongroup/BiasAndGeneralization/blob/master/clevr/clevr/samples/three2.jpg)
+![three3](https://github.com/ermongroup/BiasAndGeneralization/blob/master/clevr/clevr/samples/three3.jpg)
 
 ## Combinations
 ### Generate Red Cone and Green Cylinder
@@ -78,9 +78,9 @@ blender --background --python generate_combinations.py -- --num_images 10 --min_
 
 Some samples
 
-![comb1](https://github.com/hyren/clevr/blob/master/clevr/samples/comb1.jpg)
-![comb2](https://github.com/hyren/clevr/blob/master/clevr/samples/comb2.jpg)
-![comb3](https://github.com/hyren/clevr/blob/master/clevr/samples/comb3.jpg)
+![comb1](https://github.com/ermongroup/BiasAndGeneralization/blob/master/clevr/clevr/samples/comb1.jpg)
+![comb2](https://github.com/ermongroup/BiasAndGeneralization/blob/master/clevr/clevr/samples/comb2.jpg)
+![comb3](https://github.com/ermongroup/BiasAndGeneralization/blob/master/clevr/clevr/samples/comb3.jpg)
 
 All the generated images will be in the `../dataset` directory. 
 
