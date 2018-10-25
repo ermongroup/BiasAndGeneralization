@@ -40,7 +40,7 @@ python train.py --nr_gpu 1 --dataset red_cone.blue_cone --cors color --universal
 - ``--cors``, i.e. "color or shape", do experiment with color or shape. If choose shape, it means that a given shape (specified by argument ``--dataset``) will only appear on some colors while other shapes will appear on all possible colors.
 - ``--dataset`` denotes the exceptions. For example, ``--cors=shape --dataset=red_cone.blue_cylinder-blue_cone.green_cylinder`` means that one certain shape configuration, which is the left object is a ``cone`` and the right object is a ``cylinder``, does not appear on any color configurations except when the left object is ``red`` and the right object is ``blue`` or the left object is ``blue`` and the right object is ``green``, please refer to the figure below as the final configurations in the training set. (so another implicit requirement is that if ``--cors=shape``, the ``--dataset`` argument may only contain one shape configuration, for example, ``--dataset=red_cone.blue_cylinder-blue_sphere.green_cylinder`` does not meet the requirement, and may cause bugs).
 
-<img src="https://github.com/hyren/clevr/blob/master/clevr/samples/nine.png" width="200" height="200" />
+<img src="https://github.com/ermongroup/BiasAndGeneralization/blob/master/clevr/clevr/samples/nine.png" width="200" height="200" />
 
 - ``--data_str`` denotes the directory where the trained images are saved, the organization should look like the following. The [dataset generation code](https://github.com/hyren/clevr/tree/master/clevr) will organize the images in the exact way.
 ```
