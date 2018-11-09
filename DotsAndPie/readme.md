@@ -1,5 +1,5 @@
 This repository contains code related to numerosity and pie experiments in the paper 
-["Bias and Generalization in Deep Generative Models"](to appear). 
+[Bias and Generalization in Deep Generative Models](https://arxiv.org/abs/1811.03259). 
 
 ![concept](img/concept_illustration.png)
 
