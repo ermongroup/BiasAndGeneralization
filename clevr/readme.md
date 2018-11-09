@@ -1,5 +1,5 @@
 This repository contains code related to clevr experiments in the paper 
-["Bias and Generalization in Deep Generative Models"] (to appear). 
+[Bias and Generalization in Deep Generative Models](https://arxiv.org/abs/1811.03259). 
 
 ![concept](https://github.com/ermongroup/BiasAndGeneralization/blob/master/DotsAndPie/img/concept_illustration.png)
 
